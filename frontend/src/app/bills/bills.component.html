@@ -1,0 +1,13 @@
+<section>
+  <h2>Your Bills</h2>
+  <ul *ngIf="bills.length; else empty">
+    <li *ngFor="let bill of bills">
+      {{ bill.billName }} — R{{ bill.amount }} due {{ bill.dueDate }}
+      <span *ngIf="bill.paid">✅ Paid</span>
+      <button *ngIf="!bill.paid" (click)="pay(bill)">Pay now</button>
+    </li>
+  </ul>
+  <ng-template #empty>
+    <p>No bills yet.</p>
+  </ng-template>
+</section>
