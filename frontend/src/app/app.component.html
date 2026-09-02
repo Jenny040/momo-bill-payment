@@ -1,9 +1,27 @@
-<header>
-  <h1>MoMo Mini App — Everyday Essentials</h1>
-</header>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h1>🏦 {{ 'app.name' | translate }}</h1>
+      <span class="tagline">Essential bills & savings</span>
+    </div>
+    <div class="nav-right">
+      <select (change)="changeLanguage($event)" class="language-select">
+        <option *ngFor="let lang of languages" [value]="lang.code">
+          {{ lang.flag }} {{ lang.name }}
+        </option>
+      </select>
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a></li>
+        <li><a routerLink="/bills" routerLinkActive="active">💰 Bills</a></li>
+        <li><a routerLink="/savings" routerLinkActive="active">💎 Savings</a></li>
+        <li><a routerLink="/budget" routerLinkActive="active">📈 Budget</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<main>
-  <app-bills></app-bills>
+<main class="main-content">
+  <router-outlet></router-outlet>
 </main>
 
 <app-chatbot-widget></app-chatbot-widget>
