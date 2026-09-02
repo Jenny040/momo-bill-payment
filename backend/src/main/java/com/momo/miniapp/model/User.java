@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,24 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false, unique = true)
+    private String phoneNumber; // includes country code, e.g. +233... (Ghana), +256... (Uganda)
+
+    @Column(nullable = false)
     private String fullName;
-    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Country country;
 
     @Enumerated(EnumType.STRING)
-    private Language preferredLanguage;
+    @Column(nullable = false)
+    private Language preferredLanguage = Language.EN;
+
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bill> bills = new ArrayList<>();
+
 }
