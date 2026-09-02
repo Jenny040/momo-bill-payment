@@ -7,8 +7,7 @@ import java.util.Map;
 
 @RestController
 public class HealthController {
-
-    @GetMapping("/api/health")
+    @GetMapping("/api/v1/health")
     public Map<String, String> health() {
         return Map.of("status", "UP", "service", "momo-miniapp-backend");
     }

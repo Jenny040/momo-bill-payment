@@ -21,3 +21,13 @@ spring:
 
 chatbot:
   base-url: ${CHATBOT_URL:http://localhost:8001}
+
+momo:
+  api:
+    base-url: ${MOMO_API_BASE_URL:}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
