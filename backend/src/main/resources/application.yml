@@ -1,11 +1,46 @@
+# Default (production) configuration - MySQL
 server:
   port: 8080
 
 spring:
   application:
     name: momo-miniapp-backend
-  main:
-    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:momo_db}
+    username: ${DB_USER:momo_user}
+    password: ${DB_PASSWORD:momo_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+
+chatbot:
+  base-url: ${CHATBOT_URL:http://localhost:8001}
+
+momo:
+  api:
+    base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
+    api-user: ${MOMO_API_USER:}
+    api-key: ${MOMO_API_KEY:}
+    target-environment: ${MOMO_TARGET_ENVIRONMENT:mtnsouthafrica}
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+
+---
+# Development profile using in-memory H2 for local dev / tests
+spring:
+  profiles: dev
 
   datasource:
     url: jdbc:h2:mem:momo_miniapp
@@ -21,23 +56,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
 
-chatbot:
-  base-url: ${CHATBOT_URL:http://localhost:8001}
-
-momo:
-  api:
-    base-url: ${MOMO_API_BASE_URL:https://sandbox.momodeveloper.mtn.com}
-    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
-    api-user: ${MOMO_API_USER:}
-    api-key: ${MOMO_API_KEY:}
-    target-environment: ${MOMO_TARGET_ENVIRONMENT:mtnsouthafrica}
-
-gemini:
-  api:
-    key: ${GEMINI_API_KEY:}
-    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
