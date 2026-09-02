@@ -1,13 +1,26 @@
+<<<<<<< HEAD
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../core/services/chatbot.service';
 import { LanguageService } from '../../core/services/language.service';
+=======
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ChatbotService } from '../core/services/chatbot.service';
+
+interface Message {
+  from: 'user' | 'bot';
+  text: string;
+}
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
 @Component({
   selector: 'app-chatbot-widget',
   standalone: true,
   imports: [CommonModule, FormsModule],
+<<<<<<< HEAD
   template: `
     <button *ngIf="!isOpen" (click)="toggle()" class="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8 w-14 h-14 bg-[#FFCB05] rounded-full shadow-lg shadow-[#FFCB05]/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4l4 4 4-4h4a2 2 0 002-2V4a2 2 0 00-2-2z" fill="#000"/></svg>
@@ -142,3 +155,34 @@ export class ChatbotWidgetComponent implements OnInit {
     } catch (err) {}
   }
 }
+=======
+  templateUrl: './chatbot-widget.component.html',
+})
+export class ChatbotWidgetComponent {
+  open = false;
+  draft = '';
+  messages: Message[] = [
+    { from: 'bot', text: 'Hi! Ask me about your bills or reminders.' },
+  ];
+  userId = 'demo-user';
+
+  constructor(private chatbotService: ChatbotService) {}
+
+  toggle(): void {
+    this.open = !this.open;
+  }
+
+  send(): void {
+    const text = this.draft.trim();
+    if (!text) return;
+    this.messages.push({ from: 'user', text });
+    this.draft = '';
+
+    this.chatbotService.send(this.userId, text).subscribe({
+      next: (res) => this.messages.push({ from: 'bot', text: res.reply }),
+      error: () =>
+        this.messages.push({ from: 'bot', text: 'Sorry, I could not reach the assistant.' }),
+    });
+  }
+}
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- Top Nav -->
 <header class="fixed top-0 left-0 right-0 z-40 bg-[#FFCB05] shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -49,3 +50,32 @@
 
 <!-- Chatbot Widget -->
 <app-chatbot-widget *ngIf="isAuthenticated"></app-chatbot-widget>
+=======
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h1>🏦 {{ 'app.name' | translate }}</h1>
+      <span class="tagline">Essential bills & savings</span>
+    </div>
+    <div class="nav-right">
+      <select (change)="changeLanguage($event)" class="language-select">
+        <option *ngFor="let lang of languages" [value]="lang.code">
+          {{ lang.flag }} {{ lang.name }}
+        </option>
+      </select>
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a></li>
+        <li><a routerLink="/bills" routerLinkActive="active">💰 Bills</a></li>
+        <li><a routerLink="/savings" routerLinkActive="active">💎 Savings</a></li>
+        <li><a routerLink="/budget" routerLinkActive="active">📈 Budget</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<app-chatbot-widget></app-chatbot-widget>
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb

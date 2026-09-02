@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
@@ -507,4 +508,10 @@ html, body {
   .momo-logo-text { font-size: 16px; }
   .user-badge { display: none; }
   .btn-logout { font-size: 12px; padding: 4px 10px; }
+=======
+body {
+  margin: 0;
+  font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #f7f7f9;
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 }

@@ -10,6 +10,7 @@ export class TranslatePipe implements PipeTransform {
   constructor(private languageService: LanguageService) {}
 
   transform(key: string, params?: any): string {
+<<<<<<< HEAD
     // This is a simplified version - you can expand with actual translations
     const translations: { [key: string]: string } = {
       'app.name': 'MoMo Everyday Essentials',
@@ -28,3 +29,8 @@ export class TranslatePipe implements PipeTransform {
     return value;
   }
 }
+=======
+    return this.languageService.get(key, params);
+  }
+}
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
