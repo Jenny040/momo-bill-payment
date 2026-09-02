@@ -1,0 +1,51 @@
+<!-- Top Nav -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-[#FFCB05] shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center gap-2 group">
+      <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+        <span class="text-[#FFCB05] text-xs font-bold leading-none">M</span>
+      </div>
+      <span class="font-bold text-black text-lg tracking-tight">
+        MoMo <span class="font-light">Essentials</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-1" *ngIf="isAuthenticated">
+      <a *ngFor="let item of navItems"
+         [routerLink]="'/' + item.id"
+         routerLinkActive="bg-black text-[#FFCB05]"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-black hover:bg-black/10">
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <!-- Right Side -->
+    <div class="flex items-center gap-3">
+      <ng-container *ngIf="isAuthenticated; else authButtons">
+        <select (change)="changeLanguage($event)" class="bg-black/10 text-black text-sm px-3 py-2 rounded-lg">
+          <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.flag }} {{ lang.name }}</option>
+        </select>
+        <div class="hidden md:flex items-center gap-2 bg-black text-[#FFCB05] text-sm font-medium px-4 py-2 rounded-lg">
+          <span class="w-6 h-6 rounded-full bg-[#FFCB05] text-black flex items-center justify-center text-xs font-bold">T</span>
+          Thabo M.
+        </div>
+        <button (click)="logout()" class="text-sm font-medium text-black/70 hover:text-black">Logout</button>
+      </ng-container>
+      <ng-template #authButtons>
+        <a routerLink="/login" class="text-black text-sm font-medium hover:underline">Sign In</a>
+        <a routerLink="/signup" class="bg-black text-[#FFCB05] text-sm font-semibold px-4 py-2 rounded-lg hover:bg-black/80 transition-colors">Get Started</a>
+      </ng-template>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Chatbot Widget -->
+<app-chatbot-widget *ngIf="isAuthenticated"></app-chatbot-widget>

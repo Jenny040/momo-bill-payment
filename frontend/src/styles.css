@@ -1,0 +1,510 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --momo-yellow: #FFCB05;
+  --momo-yellow-light: #FFD633;
+  --momo-yellow-dark: #E6B800;
+  --momo-black: #000000;
+  --momo-bg: #F7F7F7;
+  --momo-white: #FFFFFF;
+  --momo-text: #1A1A1A;
+  --momo-text-secondary: #666666;
+  --momo-border: #E5E5E5;
+  --momo-success: #00A86B;
+  --momo-success-light: #E8F5E9;
+  --momo-warning: #FF6B35;
+  --momo-warning-light: #FFF3EE;
+  --momo-error: #E74C3C;
+  --momo-error-light: #FEF2F2;
+  --momo-purple: #6C1B8C;
+  --momo-purple-light: #8B3A9E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: #F7F7F7;
+  color: #1A1A1A;
+}
+
+/* ============================================
+   HEADER ANIMATION
+============================================ */
+.momo-header {
+  background: #FFCB05;
+  padding: 12px 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(255,203,5,0.3);
+  animation: slideDown 0.6s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.momo-header .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.momo-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.momo-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFCB05;
+  font-weight: 800;
+  font-size: 14px;
+  transition: transform 0.5s ease;
+}
+
+.momo-logo-icon:hover {
+  transform: rotate(360deg);
+}
+
+.momo-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+}
+
+.momo-logo-text span {
+  font-weight: 300;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: black;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+  width: 60%;
+}
+
+.nav-links a.active {
+  background: black;
+  color: #FFCB05;
+  border-radius: 8px;
+}
+
+.nav-links a.active::after {
+  display: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-right select {
+  background: rgba(0,0,0,0.08);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.header-right select:hover {
+  background: rgba(0,0,0,0.15);
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: black;
+  color: #FFCB05;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,203,5,0); }
+  50% { box-shadow: 0 0 20px 5px rgba(255,203,5,0.15); }
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  background: #FFCB05;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn-logout {
+  background: rgba(0,0,0,0.08);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.btn-logout:hover {
+  background: rgba(0,0,0,0.15);
+  transform: scale(1.05);
+}
+
+/* ============================================
+   MAIN CONTENT
+============================================ */
+.main-content {
+  padding-top: 80px;
+  min-height: 100vh;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   STAT CARDS
+============================================ */
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 24px;
+  border-left: 4px solid #FFCB05;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: cardFadeIn 0.6s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  transform: translateY(-4px) scale(1.01);
+}
+
+.stat-card .stat-icon {
+  font-size: 22px;
+}
+
+.stat-card .stat-label {
+  font-size: 13px;
+  color: #666666;
+  font-weight: 500;
+}
+
+.stat-card .stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.stat-card .stat-sub {
+  font-size: 14px;
+  color: #666666;
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn-primary {
+  background: #FFCB05;
+  color: black;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(255,203,5,0.4);
+}
+
+.btn-secondary {
+  background: black;
+  color: #FFCB05;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-secondary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #1A1A1A;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid #E5E5E5;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-outline:hover {
+  background: #F7F7F7;
+  transform: scale(1.02);
+}
+
+/* ============================================
+   BADGES
+============================================ */
+.badge-pending {
+  background: #FFFBEB;
+  color: #B8860B;
+  padding: 2px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-paid {
+  background: #E8F5E9;
+  color: #00A86B;
+  padding: 2px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-overdue {
+  background: #FEF2F2;
+  color: #E74C3C;
+  padding: 2px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-saved {
+  background: #E8F5E9;
+  color: #00A86B;
+  padding: 2px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ============================================
+   PROGRESS BAR
+============================================ */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #F7F7F7;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 1s ease;
+  animation: progressGrow 1s ease;
+}
+
+@keyframes progressGrow {
+  from { width: 0 !important; }
+  to { width: var(--progress-width); }
+}
+
+/* ============================================
+   ANIMATIONS
+============================================ */
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ============================================
+   UTILITY CLASSES
+============================================ */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.w-full { width: 100%; }
+.max-w-7xl { max-width: 1280px; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.p-4 { padding: 16px; }
+.p-6 { padding: 24px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mt-8 { margin-top: 32px; }
+.mb-4 { margin-bottom: 16px; }
+
+.text-center { text-align: center; }
+.text-sm { font-size: 14px; }
+.text-lg { font-size: 18px; }
+.text-xl { font-size: 20px; }
+.text-2xl { font-size: 24px; }
+.text-3xl { font-size: 30px; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.text-muted { color: #666666; }
+.text-success { color: #00A86B; }
+.text-error { color: #E74C3C; }
+
+.rounded-xl { border-radius: 12px; }
+.rounded-2xl { border-radius: 16px; }
+
+.bg-white { background: white; }
+.bg-yellow { background: #FFCB05; }
+.bg-black { background: black; }
+
+.shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.shadow-lg { box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+
+.transition { transition: all 0.3s ease; }
+.hover-scale:hover { transform: scale(1.02); }
+.hover-lift:hover { transform: translateY(-4px); }
+
+/* ============================================
+   CHATBOT
+============================================ */
+.chat-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #FFCB05;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,203,5,0.4);
+  z-index: 999;
+  transition: all 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 40px rgba(255,203,5,0.5);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .momo-header .container { justify-content: center; }
+  .header-right { justify-content: center; }
+  .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .momo-logo-text { font-size: 16px; }
+  .user-badge { display: none; }
+  .btn-logout { font-size: 12px; padding: 4px 10px; }
+}

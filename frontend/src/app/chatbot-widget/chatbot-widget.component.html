@@ -1,0 +1,8 @@
+<div class="chatbot-widget">
+  <button (click)="toggle()">💬</button>
+  <div *ngIf="open" class="chatbot-panel">
+    <div *ngFor="let m of messages" [class]="m.from">{{ m.text }}</div>
+    <input [(ngModel)]="draft" (keyup.enter)="send()" placeholder="Ask something..." />
+    <button (click)="send()">Send</button>
+  </div>
+</div>

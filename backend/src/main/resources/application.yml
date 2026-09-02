@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: momo-miniapp-backend
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:momo_db}
+    username: ${DB_USER:momo_user}
+    password: ${DB_PASSWORD:momo_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+chatbot:
+  base-url: ${CHATBOT_URL:http://localhost:8001}
+
+momo:
+  api:
+    base-url: ${MOMO_API_BASE_URL:}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
