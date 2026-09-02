@@ -41,12 +41,16 @@ public class MomoApiClient {
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("Authorization", "Basic " + encoded);
                 headers.set("Ocp-Apim-Subscription-Key", props.getSubscriptionKey());
+                headers.set("X-Target-Environment", props.getTargetEnvironment());
                 headers.setContentType(MediaType.APPLICATION_JSON);
 
                 HttpEntity<Void> entity = new HttpEntity<>(headers);
 
+                String url = props.getBaseUrl() + "/collection/token/";
+                log.info("Calling MoMo token URL: {}", url);
+
                 ResponseEntity<AccessTokenResponse> response = restTemplate.exchange(
-                        props.getBaseUrl() + "/accesstokengeneration",
+                        url,
                         HttpMethod.POST,
                         entity,
                         AccessTokenResponse.class);
@@ -72,11 +76,14 @@ public class MomoApiClient {
     public RequestToPayResponse initiatePayment(String amount, String currency, String externalId, String phoneNumber) {
         String token = getAccessToken();
 
+        // Ensure phone number is in correct format (without +)
+        String cleanPhone = phoneNumber.replace("+", "");
+
         RequestToPayRequest request = new RequestToPayRequest(
-                Double.valueOf(amount),
+                amount,
                 currency,
                 externalId,
-                new Party("MSISDN", phoneNumber, "default"),
+                new Party("MSISDN", cleanPhone, "default"),
                 "Payment for bill via MoMo",
                 "Bill Payment - " + externalId
         );
@@ -85,27 +92,32 @@ public class MomoApiClient {
         headers.set("Authorization", "Bearer " + token);
         headers.set("Ocp-Apim-Subscription-Key", props.getSubscriptionKey());
         headers.set("X-Reference-Id", externalId);
+        headers.set("X-Target-Environment", props.getTargetEnvironment());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<RequestToPayRequest> entity = new HttpEntity<>(request, headers);
 
         try {
+            String url = props.getBaseUrl() + "/collection/v1_0/requestpay";
+            log.info("Calling MoMo requestpay URL: {}", url);
+            log.info("Request body: amount={}, currency={}, phone={}, externalId={}", amount, currency, cleanPhone, externalId);
+
             ResponseEntity<RequestToPayResponse> response = restTemplate.exchange(
-                    props.getBaseUrl() + "/collection/v1_0/requesttopay",
+                    url,
                     HttpMethod.POST,
                     entity,
                     RequestToPayResponse.class);
 
             RequestToPayResponse body = response.getBody();
             if (body != null && body.isSuccess()) {
-                log.info("MoMo requesttopay succeeded. paymentId={}, referenceId={}", body.getPaymentId(), body.getReferenceId());
+                log.info("MoMo requestpay succeeded. paymentId={}, referenceId={}", body.getPaymentId(), body.getReferenceId());
             } else {
-                log.warn("MoMo requesttopay returned non-success: {}", body);
+                log.warn("MoMo requestpay returned non-success: {}", body);
             }
             return body;
 
         } catch (HttpClientErrorException e) {
-            log.error("MoMo requesttopay failed: {} - {}", e.getStatusCode(), e.getResponseBodyAsString());
+            log.error("MoMo requestpay failed: {} - {}", e.getStatusCode(), e.getResponseBodyAsString());
             throw new RuntimeException("MoMo payment initiation failed", e);
         }
     }
@@ -116,12 +128,16 @@ public class MomoApiClient {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         headers.set("Ocp-Apim-Subscription-Key", props.getSubscriptionKey());
+        headers.set("X-Target-Environment", props.getTargetEnvironment());
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         try {
+            String url = props.getBaseUrl() + "/collection/v1_0/requesttopay/" + paymentId;
+            log.info("Calling MoMo status URL: {}", url);
+
             ResponseEntity<TransactionStatusResponse> response = restTemplate.exchange(
-                    props.getBaseUrl() + "/collection/v1_0/requests/" + paymentId,
+                    url,
                     HttpMethod.GET,
                     entity,
                     TransactionStatusResponse.class);
@@ -129,7 +145,7 @@ public class MomoApiClient {
             TransactionStatusResponse body = response.getBody();
             if (body != null && body.isSuccessful()) {
                 log.info("MoMo transaction SUCCESSFUL. gatewayTxId={}, amount={}",
-                        body.getGatewayTransactionId(), body.getAmount().getAmount());
+                        body.getGatewayTransactionId(), body.getAmount() != null ? body.getAmount().getAmount() : "N/A");
             }
             return body;
 
@@ -142,10 +158,12 @@ public class MomoApiClient {
     public boolean payBillAndConfirm(String amount, String currency, String externalId, String phoneNumber) {
         RequestToPayResponse initiated = initiatePayment(amount, currency, externalId, phoneNumber);
         if (initiated == null || !initiated.isSuccess()) {
+            log.error("Payment initiation failed or returned null");
             return false;
         }
 
         try {
+            log.info("Waiting 5 seconds for transaction to process...");
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -153,6 +171,12 @@ public class MomoApiClient {
         }
 
         TransactionStatusResponse status = getTransactionStatus(initiated.getPaymentId());
-        return status != null && status.isSuccessful();
+        if (status != null && status.isSuccessful()) {
+            log.info("Payment confirmed successfully!");
+            return true;
+        } else {
+            log.error("Transaction status check failed or returned unsuccessful");
+            return false;
+        }
     }
 }

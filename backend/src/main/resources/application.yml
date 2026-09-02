@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: momo-miniapp-backend
+  main:
+    allow-bean-definition-overriding: true
 
   datasource:
     url: jdbc:h2:mem:momo_miniapp
@@ -29,7 +31,7 @@ chatbot:
 
 momo:
   api:
-    base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
+    base-url: ${MOMO_API_BASE_URL:https://sandbox.momodeveloper.mtn.com}
     subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
     api-user: ${MOMO_API_USER:}
     api-key: ${MOMO_API_KEY:}

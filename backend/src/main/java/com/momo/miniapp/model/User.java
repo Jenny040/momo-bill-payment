@@ -19,13 +19,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ❌ DELETE THIS LINE: private String name;
-
     @Column(unique = true, nullable = false)
     private String email;
 
     private String fullName;
-
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
