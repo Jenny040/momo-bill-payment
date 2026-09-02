@@ -1,3 +1,4 @@
+# Default (production) configuration - MySQL
 server:
   port: 8080
 
@@ -6,7 +7,6 @@ spring:
     name: momo-miniapp-backend
 
   datasource:
-<<<<<<< HEAD
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:momo_db}
     username: ${DB_USER:momo_user}
     password: ${DB_PASSWORD:momo_password}
@@ -15,7 +15,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-=======
+
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
     url: jdbc:h2:mem:momo_miniapp
     driver-class-name: org.h2.Driver
     username: sa
@@ -29,33 +37,54 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+ main
 
 chatbot:
   base-url: ${CHATBOT_URL:http://localhost:8001}
 
 momo:
   api:
-<<<<<<< HEAD
     base-url: ${MOMO_API_BASE_URL:}
     subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
-=======
     base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
     subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
     api-user: ${MOMO_API_USER:}
     api-key: ${MOMO_API_KEY:}
     target-environment: ${MOMO_TARGET_ENVIRONMENT:mtnsouthafrica}
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
 gemini:
   api:
     key: ${GEMINI_API_KEY:}
-<<<<<<< HEAD
     url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
-=======
+
+---
+# Development profile using in-memory H2 for local dev / tests
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:h2:mem:momo_miniapp
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
     url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+ main

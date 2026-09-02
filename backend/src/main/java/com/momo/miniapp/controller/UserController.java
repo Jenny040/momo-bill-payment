@@ -23,6 +23,7 @@ public class UserController {
         User user = new User();
         user.setPhoneNumber(request.phoneNumber());
         user.setFullName(request.fullName());
+        user.setEmail(request.email());
         user.setCountry(request.country());
         user.setPreferredLanguage(request.preferredLanguage() != null ? request.preferredLanguage() : Language.EN);
         User saved = userRepository.save(user);

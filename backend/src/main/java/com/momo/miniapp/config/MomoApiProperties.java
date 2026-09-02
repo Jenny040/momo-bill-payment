@@ -12,6 +12,7 @@ public class MomoApiProperties {
     private String apiKey;
     private String apiUser;
     private String shortCode;
+    private String targetEnvironment;
 
     public String getBaseUrl() {
         return baseUrl;
@@ -51,5 +52,13 @@ public class MomoApiProperties {
 
     public void setShortCode(String shortCode) {
         this.shortCode = shortCode;
+    }
+
+    public String getTargetEnvironment() {
+        return targetEnvironment;
+    }
+
+    public void setTargetEnvironment(String targetEnvironment) {
+        this.targetEnvironment = targetEnvironment;
     }
 }
