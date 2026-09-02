@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,20 +19,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber; // includes country code, e.g. +233... (Ghana), +256... (Uganda)
+    // ❌ DELETE THIS LINE: private String name;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
+    private String email;
+
     private String fullName;
 
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Country country;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Language preferredLanguage = Language.EN;
+    private Language preferredLanguage;
 
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Bill> bills = new ArrayList<>();
 }
