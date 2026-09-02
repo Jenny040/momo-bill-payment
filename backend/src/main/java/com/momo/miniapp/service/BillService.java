@@ -1,6 +1,9 @@
 package com.momo.miniapp.service;
 
+<<<<<<< HEAD
+=======
 import com.momo.miniapp.client.MomoApiClient;
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 import com.momo.miniapp.dto.BillDTO;
 import com.momo.miniapp.exception.ResourceNotFoundException;
 import com.momo.miniapp.model.Bill;
@@ -8,7 +11,10 @@ import com.momo.miniapp.model.User;
 import com.momo.miniapp.repository.BillRepository;
 import com.momo.miniapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD
+=======
 import lombok.extern.slf4j.Slf4j;
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,13 +22,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+<<<<<<< HEAD
+=======
 @Slf4j
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 public class BillService {
 
     private final BillRepository billRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+<<<<<<< HEAD
+=======
     private final MomoApiClient momoApiClient;
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
     public List<BillDTO.Response> getBillsForUser(Long userId) {
         return billRepository.findByUserId(userId).stream()
@@ -47,6 +59,11 @@ public class BillService {
 
     public BillDTO.Response markAsPaid(Long billId) {
         Bill bill = billRepository.findById(billId)
+<<<<<<< HEAD
+                .orElseThrow(() -> new ResourceNotFoundException("Bill not found: " + billId));
+
+        // TODO: call the real MoMo Payment API here before flipping status to PAID
+=======
                 .orElseThrow(() -> new ResourceNotFoundException("ill not found: " + billId));
 
         String phoneNumber = bill.getUser().getPhoneNumber();
@@ -69,6 +86,7 @@ public class BillService {
             throw new IllegalStateException("MoMo payment could not be confirmed for bill " + billId);
         }
 
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
         bill.setStatus(Bill.BillStatus.PAID);
         bill.setPaidAt(Instant.now());
         Bill saved = billRepository.save(bill);

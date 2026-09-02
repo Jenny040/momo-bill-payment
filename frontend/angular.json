@@ -1,14 +1,68 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+<<<<<<< HEAD
+  "newProjectRoot": "projects",
+  "projects": {
+    "momo-everyday-essentials": {
+=======
   "projects": {
     "momo-miniapp-frontend": {
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
+<<<<<<< HEAD
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "dist/momo-everyday-essentials"
+            },
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"
+            "node_modules/@fortawesome/fontawesome-free/css/all.min.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "momo-everyday-essentials:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "momo-everyday-essentials:build:production"
+            },
+            "development": {
+              "buildTarget": "momo-everyday-essentials:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+=======
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/momo-miniapp-frontend",
@@ -24,6 +78,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": { "port": 4200 }
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
         }
       }
     }

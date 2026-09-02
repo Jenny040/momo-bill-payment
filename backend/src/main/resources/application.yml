@@ -21,11 +21,35 @@ spring:
     hibernate:
       format_sql: true
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    url: jdbc:h2:mem:momo_miniapp
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+ main
+
 chatbot:
   base-url: ${CHATBOT_URL:http://localhost:8001}
 
 momo:
   api:
+    base-url: ${MOMO_API_BASE_URL:}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
     base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
     subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
     api-user: ${MOMO_API_USER:}
@@ -61,3 +85,6 @@ spring:
   properties:
     hibernate:
       format_sql: true
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+ main
