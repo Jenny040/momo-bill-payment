@@ -1,21 +1,14 @@
 package com.momo.miniapp.dto.momomapi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Party {
-
-    @JsonProperty("partyIdType")
-    private String partyIdType; // MSISDN
-
-    @JsonProperty("partyId")
-    private String partyId; // user phone number
-
-    @JsonProperty("subAddress")
-    private String subAddress; // default: "default"
+    private String partyIdType;  // MSISDN, EMAIL, ALIAS, PARTY_CODE
+    private String partyId;      // The actual ID (phone number, email, etc.)
+    private String description;
 }
