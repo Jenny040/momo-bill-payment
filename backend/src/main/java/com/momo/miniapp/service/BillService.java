@@ -1,9 +1,6 @@
 package com.momo.miniapp.service;
 
-<<<<<<< HEAD
-=======
 import com.momo.miniapp.client.MomoApiClient;
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 import com.momo.miniapp.dto.BillDTO;
 import com.momo.miniapp.exception.ResourceNotFoundException;
 import com.momo.miniapp.model.Bill;
@@ -11,30 +8,23 @@ import com.momo.miniapp.model.User;
 import com.momo.miniapp.repository.BillRepository;
 import com.momo.miniapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-=======
 import lombok.extern.slf4j.Slf4j;
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-<<<<<<< HEAD
-=======
 @Slf4j
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 public class BillService {
 
     private final BillRepository billRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
-<<<<<<< HEAD
-=======
     private final MomoApiClient momoApiClient;
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
     public List<BillDTO.Response> getBillsForUser(Long userId) {
         return billRepository.findByUserId(userId).stream()
@@ -57,45 +47,66 @@ public class BillService {
         return BillDTO.Response.fromEntity(billRepository.save(bill));
     }
 
+    @Transactional
     public BillDTO.Response markAsPaid(Long billId) {
         Bill bill = billRepository.findById(billId)
-<<<<<<< HEAD
                 .orElseThrow(() -> new ResourceNotFoundException("Bill not found: " + billId));
 
-        // TODO: call the real MoMo Payment API here before flipping status to PAID
-=======
-                .orElseThrow(() -> new ResourceNotFoundException("ill not found: " + billId));
+        if (bill.getStatus() == Bill.BillStatus.PAID) {
+            throw new RuntimeException("Bill is already paid");
+        }
 
         String phoneNumber = bill.getUser().getPhoneNumber();
-        String externalId = "BILL-" + billId + "-" + System.currentTimeMillis();
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            throw new RuntimeException("User phone number is required for MoMo payment");
+        }
 
-        boolean paymentConfirmed;
         try {
-            paymentConfirmed = momoApiClient.payBillAndConfirm(
-                    bill.getAmountDue().toString(),
-                    "ZAR",
-                    externalId,
-                    phoneNumber
+            String referenceId = UUID.randomUUID().toString();
+            String amount = bill.getAmountDue().toString();
+            String currency = "ZAR";
+            String payerMsisdn = phoneNumber;
+
+            log.info("========================================");
+            log.info("Starting MoMo payment for bill ID: {}", billId);
+            log.info("Amount: {} {}", amount, currency);
+            log.info("Phone Number: {}", payerMsisdn);
+            log.info("Reference ID: {}", referenceId);
+            log.info("========================================");
+
+            // Use the MomoApiClient with retry
+            boolean paymentSuccess = momoApiClient.payBillAndConfirmWithRetry(
+                    amount,
+                    currency,
+                    referenceId,
+                    payerMsisdn,
+                    10,   // max retries
+                    5     // seconds between checks
             );
+
+            if (paymentSuccess) {
+                bill.setStatus(Bill.BillStatus.PAID);
+                bill.setPaidAt(Instant.now());
+                Bill saved = billRepository.save(bill);
+
+                log.info("✅ Bill {} marked as PAID successfully!", billId);
+
+                notificationService.sendPaymentSuccessNotification(
+                        bill.getUser(),
+                        bill.getProvider(),
+                        bill.getAmountDue().toString()
+                );
+
+                return BillDTO.Response.fromEntity(saved);
+            } else {
+                log.error("❌ Payment could not be confirmed for bill {}", billId);
+                throw new RuntimeException("Payment could not be confirmed");
+            }
+
         } catch (Exception e) {
-            log.error("MoMo payment failed for bill {}: {}", billId, e.getMessage(), e);
-            paymentConfirmed = false;
+            log.error("❌ MoMo payment failed for bill {}: {}", billId, e.getMessage());
+            throw new RuntimeException("MoMo payment could not be confirmed for bill " + billId, e);
         }
-
-        if (!paymentConfirmed) {
-            throw new IllegalStateException("MoMo payment could not be confirmed for bill " + billId);
-        }
-
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
-        bill.setStatus(Bill.BillStatus.PAID);
-        bill.setPaidAt(Instant.now());
-        Bill saved = billRepository.save(bill);
-
-        notificationService.sendPaymentSuccessNotification(
-                bill.getUser(), bill.getProvider(), bill.getAmountDue().toString()
-        );
-
-        return BillDTO.Response.fromEntity(saved);
     }
 
     public void deleteBill(Long billId) {

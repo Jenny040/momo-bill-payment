@@ -4,7 +4,10 @@ server:
 spring:
   application:
     name: momo-miniapp-backend
+  main:
+    allow-bean-definition-overriding: true
 
+  # H2 Database for testing (no setup needed)
   datasource:
     url: jdbc:h2:mem:momo_miniapp
     driver-class-name: org.h2.Driver
@@ -24,17 +27,26 @@ spring:
       hibernate:
         format_sql: true
 
-chatbot:
-  base-url: ${CHATBOT_URL:http://localhost:8001}
-
+# ============================================================
+# MoMo API Configuration
+# ============================================================
 momo:
   api:
-    base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
+    base-url: ${MOMO_API_BASE_URL:https://sandbox.momodeveloper.mtn.com}
     subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
     api-user: ${MOMO_API_USER:}
     api-key: ${MOMO_API_KEY:}
-    target-environment: ${MOMO_TARGET_ENVIRONMENT:mtnsouthafrica}
+      target-environment: ${MOMO_TARGET_ENVIRONMENT:sandbox}
 
+# ============================================================
+# Chatbot Configuration
+# ============================================================
+chatbot:
+  base-url: ${CHATBOT_URL:http://localhost:8001}
+
+# ============================================================
+# Gemini API Configuration
+# ============================================================
 gemini:
   api:
     key: ${GEMINI_API_KEY:}

@@ -1,6 +1,8 @@
 package com.momo.miniapp.controller;
 
+import com.momo.miniapp.client.MomoApiClient;
 import com.momo.miniapp.dto.UserDTO;
+import com.momo.miniapp.dto.momomapi.BasicUserInfoResponse;
 import com.momo.miniapp.model.Country;
 import com.momo.miniapp.model.Language;
 import com.momo.miniapp.model.User;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final MomoApiClient momoApiClient;  // ✅ Add this
 
     @PostMapping
     public ResponseEntity<UserDTO.Response> createUser(@Valid @RequestBody UserDTO.Request request) {
@@ -38,5 +41,28 @@ public class UserController {
     @GetMapping("/countries")
     public Country[] getSupportedCountries() {
         return Country.values();
+    }
+
+    /**
+     * Get user info from MoMo by MSISDN
+     * GET /api/v1/users/{msisdn}/info
+     */
+    @GetMapping("/{msisdn}/info")
+    public ResponseEntity<BasicUserInfoResponse> getUserInfo(@PathVariable String msisdn) {
+        BasicUserInfoResponse userInfo = momoApiClient.getBasicUserInfo(msisdn);
+        if (userInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userInfo);
+    }
+
+    /**
+     * Validate if MSISDN is active on MoMo
+     * GET /api/v1/users/{msisdn}/validate
+     */
+    @GetMapping("/{msisdn}/validate")
+    public ResponseEntity<Boolean> validateAccountHolder(@PathVariable String msisdn) {
+        boolean isValid = momoApiClient.validateAccountHolder(msisdn);
+        return ResponseEntity.ok(isValid);
     }
 }

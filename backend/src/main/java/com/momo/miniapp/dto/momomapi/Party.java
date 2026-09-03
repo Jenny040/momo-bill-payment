@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Party {
-    private String partyIdType;
-    private String partyId;
+    private String partyIdType;  // MSISDN, EMAIL, ALIAS, PARTY_CODE
+    private String partyId;      // The actual ID (phone number, email, etc.)
     private String description;
 }
