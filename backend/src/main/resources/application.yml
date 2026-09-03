@@ -4,11 +4,18 @@ server:
 spring:
   application:
     name: momo-miniapp-backend
-  main:
-    allow-bean-definition-overriding: true
 
-  # H2 Database for testing (no setup needed)
   datasource:
+<<<<<<< HEAD
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:momo_db}
+    username: ${DB_USER:momo_user}
+    password: ${DB_PASSWORD:momo_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+=======
     url: jdbc:h2:mem:momo_miniapp
     driver-class-name: org.h2.Driver
     username: sa
@@ -22,32 +29,33 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-# ============================================================
-# MoMo API Configuration
-# ============================================================
-momo:
-  api:
-    base-url: ${MOMO_API_BASE_URL:https://sandbox.momodeveloper.mtn.com}
-    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
-    api-user: ${MOMO_API_USER:}
-    api-key: ${MOMO_API_KEY:}
-      target-environment: ${MOMO_TARGET_ENVIRONMENT:sandbox}
-
-# ============================================================
-# Chatbot Configuration
-# ============================================================
 chatbot:
   base-url: ${CHATBOT_URL:http://localhost:8001}
 
-# ============================================================
-# Gemini API Configuration
-# ============================================================
+momo:
+  api:
+<<<<<<< HEAD
+    base-url: ${MOMO_API_BASE_URL:}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
+=======
+    base-url: ${MOMO_API_BASE_URL:https://proxy.momoapi.mtn.com}
+    subscription-key: ${MOMO_API_SUBSCRIPTION_KEY:}
+    api-user: ${MOMO_API_USER:}
+    api-key: ${MOMO_API_KEY:}
+    target-environment: ${MOMO_TARGET_ENVIRONMENT:mtnsouthafrica}
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
+
 gemini:
   api:
     key: ${GEMINI_API_KEY:}
+<<<<<<< HEAD
     url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+=======
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+>>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb

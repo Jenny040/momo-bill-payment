@@ -18,7 +18,7 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping
-    public ResponseEntity<List<CardDTO.Response>> getCards(@RequestParam Long userId) {
+    public ResponseEntity<List<CardDTO.Response>> getCards(@RequestParam String userId) {
         return ResponseEntity.ok(cardService.getCardsForUser(userId));
     }
 

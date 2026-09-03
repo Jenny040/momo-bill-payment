@@ -1,13 +1,11 @@
 package com.momo.miniapp.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-import java.time.Instant;
+import lombok.AllArgsConstructor;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bills")
@@ -15,38 +13,42 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bill {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private String userId;
 
     @Column(nullable = false)
-    private String provider; // e.g. "ECG" (Ghana), "Umeme" (Uganda), "Eskom" (South Africa)
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BillCategory category;
+    private String billType;
 
     @Column(nullable = false)
-    private BigDecimal amountDue;
+    private String provider;
+
+    private String accountNumber;
+
+    @Column(nullable = false)
+    private Double amount;
 
     @Column(nullable = false)
     private LocalDate dueDate;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private BillStatus status = BillStatus.UPCOMING;
+    private Boolean isPaid = false;
 
-    @Column
-    private Instant paidAt;
+    private Boolean isRecurring = false;
 
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
+    private Integer recurrenceInterval;
 
-    public enum BillCategory { ELECTRICITY, WATER, SCHOOL_FEES, OTHER }
-    public enum BillStatus { UPCOMING, DUE_SOON, OVERDUE, PAID }
+    private String category;
+
+    private String description;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime paidAt;
 }
