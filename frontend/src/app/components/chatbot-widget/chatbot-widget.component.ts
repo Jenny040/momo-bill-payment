@@ -1,150 +1,62 @@
-<<<<<<< HEAD
-import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../core/services/chatbot.service';
 import { LanguageService } from '../../core/services/language.service';
-=======
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ChatbotService } from '../../core/services/chatbot.service';
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
 @Component({
   selector: 'app-chatbot-widget',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-<<<<<<< HEAD
     <button *ngIf="!isOpen" (click)="toggle()" class="chat-toggle">💬</button>
 
-    <div *ngIf="isOpen" style="position:fixed;bottom:100px;right:24px;width:400px;max-width:calc(100vw - 48px);height:550px;background:white;border-radius:20px;box-shadow:0 20px 80px rgba(0,0,0,0.2);display:flex;flex-direction:column;z-index:1000;overflow:hidden;animation:slideUp 0.3s ease;">
-      <!-- Header -->
-      <div style="background:linear-gradient(135deg,#FFCB05,#FFD633);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-        <div>
-          <span style="font-weight:700;color:black;font-size:16px;">🤖 MoMo Assistant</span>
-          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(0,0,0,0.6);">
-            <span style="display:inline-block;width:8px;height:8px;background:#00A86B;border-radius:50%;animation:pulse 2s infinite;"></span>
-            Online • {{ currentTime | date:'shortTime' }}
-          </div>
-        </div>
-        <button (click)="toggle()" class="chat-close-btn">✕</button>
+    <div *ngIf="isOpen" style="position:fixed;bottom:100px;right:24px;width:400px;max-width:calc(100vw - 48px);height:500px;background:white;border-radius:16px;box-shadow:0 20px 80px rgba(0,0,0,0.2);display:flex;flex-direction:column;z-index:1000;overflow:hidden;">
+      <div style="background:#FFCB05;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+        <span style="font-weight:700;color:black;">🤖 MoMo Assistant</span>
+        <button (click)="toggle()" style="background:rgba(0,0,0,0.1);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
       </div>
 
-      <!-- Messages -->
-      <div style="flex:1;overflow-y:auto;padding:16px 20px;background:#F7F7F7;" #messageContainer>
-        <div *ngFor="let msg of messages" style="display:flex;margin-bottom:12px;{{ msg.role === 'user' ? 'justify-content:flex-end;' : '' }}">
-          <div *ngIf="msg.role === 'bot'" style="width:32px;height:32px;background:#FFCB05;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:black;margin-right:10px;flex-shrink:0;">M</div>
+      <div style="flex:1;overflow-y:auto;padding:12px 16px;background:#F7F7F7;" #messageContainer>
+        <div *ngFor="let msg of messages" style="display:flex;margin-bottom:10px;{{ msg.role === 'user' ? 'justify-content:flex-end;' : '' }}">
           <div style="max-width:75%;">
-            <div style="padding:10px 14px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word;{{ msg.role === 'user' ? 'background:#FFCB05;color:black;border-bottom-right-radius:4px;' : 'background:white;border-bottom-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);' }}">
+            <div style="padding:8px 12px;border-radius:12px;{{ msg.role === 'user' ? 'background:#FFCB05;color:black;border-bottom-right-radius:4px;' : 'background:white;border-bottom-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);' }}">
               {{ msg.text }}
             </div>
-            <div style="font-size:11px;color:#999;margin-top:4px;{{ msg.role === 'user' ? 'text-align:right;' : '' }}">{{ msg.time }}</div>
+            <div style="font-size:10px;color:#999;margin-top:2px;{{ msg.role === 'user' ? 'text-align:right;' : '' }}">{{ msg.time }}</div>
           </div>
         </div>
-        <div *ngIf="isTyping" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-          <div style="width:32px;height:32px;background:#FFCB05;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:black;">M</div>
-          <div style="background:white;padding:12px 16px;border-radius:12px;border-bottom-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;gap:4px;">
-            <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:0ms;"></span>
-            <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:200ms;"></span>
-            <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:400ms;"></span>
-          </div>
+        <div *ngIf="isTyping" style="display:flex;gap:4px;padding:8px 12px;background:white;border-radius:12px;border-bottom-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;gap:4px;">
+          <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:0ms;"></span>
+          <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:200ms;"></span>
+          <span style="width:8px;height:8px;background:#999;border-radius:50%;animation:bounce 1.4s infinite;animation-delay:400ms;"></span>
         </div>
         <div #messagesEnd></div>
       </div>
 
-      <!-- Quick Replies -->
-      <div style="padding:8px 16px;background:white;border-top:1px solid #E5E5E5;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;">
-        <button *ngFor="let reply of quickReplies" (click)="sendQuickReply(reply)" class="quick-reply-btn">{{ getQuickReplyText(reply) }}</button>
+      <div style="padding:8px 12px;background:white;border-top:1px solid #E5E5E5;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;">
+        <button *ngFor="let reply of quickReplies" (click)="sendQuickReply(reply)" style="background:#F7F7F7;border:1px solid #E5E5E5;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;">{{ reply }}</button>
       </div>
 
-      <!-- Input -->
-      <div style="padding:10px 16px;background:white;border-top:1px solid #E5E5E5;display:flex;gap:10px;flex-shrink:0;">
-        <input [(ngModel)]="inputText" (keyup.enter)="sendMessage()" placeholder="Type a message…" class="chat-input-field">
-        <button (click)="sendMessage()" [disabled]="!inputText.trim()" class="chat-send-btn" [style.opacity]="!inputText.trim() ? '0.5' : '1'">Send</button>
+      <div style="padding:8px 12px;background:white;border-top:1px solid #E5E5E5;display:flex;gap:8px;flex-shrink:0;">
+        <input [(ngModel)]="inputText" (keyup.enter)="sendMessage()" placeholder="Type a message…" style="flex:1;padding:8px 12px;border:1px solid #E5E5E5;border-radius:8px;font-size:14px;outline:none;font-family:'Poppins',sans-serif;">
+        <button (click)="sendMessage()" [disabled]="!inputText.trim()" style="padding:8px 16px;background:#FFCB05;color:black;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Send</button>
       </div>
     </div>
 
     <style>
-      @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
       @keyframes bounce {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-6px); }
       }
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
-      }
-      .chat-close-btn {
-        background: rgba(0,0,0,0.1);
-        border: none;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 18px;
-        transition: all 0.3s;
-      }
-      .chat-close-btn:hover {
-        background: rgba(0,0,0,0.2);
-      }
-      .quick-reply-btn {
-        background: #F7F7F7;
-        border: 1px solid #E5E5E5;
-        border-radius: 20px;
-        padding: 4px 14px;
-        font-size: 12px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s;
-        white-space: nowrap;
-        font-family: 'Poppins', sans-serif;
-      }
-      .quick-reply-btn:hover {
-        background: #FFCB05;
-        border-color: #FFCB05;
-        transform: scale(1.05);
-      }
-      .chat-input-field {
-        flex: 1;
-        padding: 10px 16px;
-        border: 1px solid #E5E5E5;
-        border-radius: 10px;
-        font-size: 14px;
-        outline: none;
-        font-family: 'Poppins', sans-serif;
-        transition: border-color 0.3s;
-      }
-      .chat-input-field:focus {
-        border-color: #FFCB05;
-      }
-      .chat-send-btn {
-        padding: 10px 20px;
-        background: #FFCB05;
-        color: black;
-        border: none;
-        border-radius: 10px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-family: 'Poppins', sans-serif;
-      }
-      .chat-send-btn:hover:not(:disabled) {
-        transform: scale(1.05);
-      }
-      .chat-send-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+      .chat-toggle {
+        position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: #FFCB05; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 4px 20px rgba(255,203,5,0.4); z-index: 999;
       }
     </style>
   `,
   styles: []
 })
-export class ChatbotWidgetComponent implements OnInit, OnDestroy {
+export class ChatbotWidgetComponent implements OnInit {
   @ViewChild('messageContainer') messageContainer!: ElementRef;
   @ViewChild('messagesEnd') messagesEnd!: ElementRef;
 
@@ -152,9 +64,7 @@ export class ChatbotWidgetComponent implements OnInit, OnDestroy {
   isTyping = false;
   inputText = '';
   messages: any[] = [];
-  quickReplies = ['bills', 'savings', 'electricity', 'budget', 'send'];
-  currentTime = new Date();
-  private timeSubscription: any;
+  quickReplies = ['Check my bills', 'View savings', 'Pay electricity', 'Budget summary', 'Send money'];
 
   constructor(
     private chatbotService: ChatbotService,
@@ -162,38 +72,16 @@ export class ChatbotWidgetComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const greeting = this.languageService.get('chatbot.greeting') || 'Hi Thabo! 👋 I\'m your MoMo assistant. How can I help?';
     this.messages = [{
       role: 'bot',
-      text: greeting,
+      text: 'Hi Thabo! 👋 I\'m your MoMo assistant. How can I help?',
       time: new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })
     }];
-
-    this.timeSubscription = setInterval(() => {
-      this.currentTime = new Date();
-    }, 1000);
-  }
-
-  ngOnDestroy() {
-    if (this.timeSubscription) {
-      clearInterval(this.timeSubscription);
-    }
   }
 
   toggle() {
     this.isOpen = !this.isOpen;
     if (this.isOpen) setTimeout(() => this.scrollToBottom(), 100);
-  }
-
-  getQuickReplyText(key: string): string {
-    const map: any = {
-      'bills': this.languageService.get('chatbot.bills') || 'Check my bills',
-      'savings': this.languageService.get('chatbot.savings') || 'View savings',
-      'electricity': this.languageService.get('chatbot.electricity') || 'Pay electricity',
-      'budget': this.languageService.get('chatbot.budget') || 'Budget summary',
-      'send': this.languageService.get('chatbot.send') || 'Send money'
-    };
-    return map[key] || key;
   }
 
   sendMessage() {
@@ -217,157 +105,22 @@ export class ChatbotWidgetComponent implements OnInit, OnDestroy {
           text: res.reply,
           time: new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })
         });
-=======
-    <button class="chat-toggle" (click)="toggle()" *ngIf="!isOpen">💬</button>
-    <div class="chat-window" *ngIf="isOpen">
-      <div class="chat-header">
-        <span>🤖 MoMo Assistant</span>
-        <button (click)="toggle()" class="close-btn">✕</button>
-      </div>
-      <div class="chat-messages" #messageContainer>
-        <div *ngFor="let msg of messages" class="message" [class.user]="msg.from === 'user'" [class.bot]="msg.from === 'bot'">
-          <p>{{ msg.text }}</p>
-        </div>
-        <div *ngIf="isTyping" class="message bot">
-          <p class="typing">Typing...</p>
-        </div>
-      </div>
-      <div class="quick-replies">
-        <button *ngFor="let reply of quickReplies" (click)="sendQuickReply(reply.action)">{{ reply.label }}</button>
-      </div>
-      <div class="chat-input">
-        <input [(ngModel)]="draft" (keyup.enter)="send()" placeholder="Type a message..." class="message-input">
-        <button (click)="send()" class="send-btn">Send</button>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .chat-toggle {
-      position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px;
-      border-radius: 50%; background: #FFCB05; border: none; font-size: 28px;
-      cursor: pointer; box-shadow: 0 4px 20px rgba(255,203,5,0.4); z-index: 999;
-      transition: transform 0.2s;
-    }
-    .chat-toggle:hover { transform: scale(1.1); }
-    .chat-window {
-      position: fixed; bottom: 100px; right: 24px; width: 400px; max-width: calc(100vw - 48px);
-      height: 500px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      display: flex; flex-direction: column; z-index: 1000; overflow: hidden;
-      animation: slideUp 0.3s ease;
-    }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .chat-header {
-      padding: 14px 18px; background: linear-gradient(135deg, #6C1B8C, #8B3A9E);
-      color: white; display: flex; justify-content: space-between; align-items: center;
-      flex-shrink: 0;
-    }
-    .close-btn {
-      background: rgba(255,255,255,0.2); border: none; color: white;
-      width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-      font-size: 18px; transition: background 0.2s;
-    }
-    .close-btn:hover { background: rgba(255,255,255,0.3); }
-    .chat-messages { flex: 1; padding: 16px 18px; overflow-y: auto; background: #F8F9FA; }
-    .message { margin-bottom: 12px; }
-    .message p { margin: 0; padding: 10px 14px; border-radius: 12px; max-width: 80%; word-wrap: break-word; }
-    .message.user p { background: #6C1B8C; color: white; margin-left: auto; }
-    .message.bot p { background: white; color: #1A1A1A; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    .typing { animation: pulse 1.5s ease-in-out infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-    .quick-replies { padding: 8px 16px; display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px solid #eee; background: white; flex-shrink: 0; }
-    .quick-replies button {
-      padding: 6px 14px; background: #F0F0F0; border: 1px solid #E8E0EB;
-      border-radius: 20px; font-size: 12px; color: #1A1A1A; cursor: pointer;
-      transition: all 0.2s; white-space: nowrap;
-    }
-    .quick-replies button:hover { background: #6C1B8C; color: white; border-color: #6C1B8C; }
-    .chat-input { display: flex; padding: 10px 16px; border-top: 1px solid #eee; background: white; gap: 10px; flex-shrink: 0; }
-    .message-input { flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-    .message-input:focus { border-color: #6C1B8C; box-shadow: 0 0 0 3px rgba(108, 27, 140, 0.1); }
-    .send-btn { padding: 10px 24px; background: #FFCB05; color: #1A1A1A; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    .send-btn:hover { transform: scale(1.02); }
-    @media (max-width: 480px) {
-      .chat-window { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 100%; height: 100vh; border-radius: 0; }
-      .chat-toggle { bottom: 16px; right: 16px; width: 56px; height: 56px; font-size: 24px; }
-    }
-  `]
-})
-export class ChatbotWidgetComponent {
-  @ViewChild('messageContainer') private messageContainer!: ElementRef;
-
-  isOpen = false;
-  isTyping = false;
-  draft = '';
-  userId = '1';
-
-  messages: any[] = [
-    { from: 'bot', text: 'Hi Thabo! 👋 I\'m your MoMo assistant. I can help you pay bills, check your savings, or manage your budget. What can I do for you?' }
-  ];
-
-  quickReplies = [
-    { label: 'Check my bills', action: 'bills' },
-    { label: 'View savings', action: 'savings' },
-    { label: 'Pay electricity', action: 'electricity' },
-    { label: 'Budget summary', action: 'budget' },
-    { label: 'Send money', action: 'send' }
-  ];
-
-  constructor(private chatbotService: ChatbotService) {}
-
-  toggle(): void {
-    this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      setTimeout(() => this.scrollToBottom(), 100);
-    }
-  }
-
-  send(): void {
-    const text = this.draft.trim();
-    if (!text) return;
-
-    this.messages.push({ from: 'user', text });
-    this.draft = '';
-    this.isTyping = true;
-
-    this.chatbotService.send(this.userId, text).subscribe({
-      next: (res) => {
-        this.isTyping = false;
-        this.messages.push({ from: 'bot', text: res.reply });
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
         this.scrollToBottom();
       },
       error: () => {
         this.isTyping = false;
-<<<<<<< HEAD
-        const fallback = this.chatbotService.getLocalResponse(text);
         this.messages.push({
           role: 'bot',
-          text: fallback,
+          text: 'Sorry, I could not reach the assistant. Please try again.',
           time: new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })
         });
-=======
-        this.messages.push({ from: 'bot', text: 'Sorry, I could not reach the assistant. Please try again.' });
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
         this.scrollToBottom();
       }
     });
   }
 
-<<<<<<< HEAD
-  sendQuickReply(key: string) {
-    const map: any = {
-=======
-  sendQuickReply(action: string): void {
-    const quickMessages: any = {
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
-      'bills': 'Check my bills',
-      'savings': 'View savings',
-      'electricity': 'Pay electricity',
-      'budget': 'Budget summary',
-      'send': 'Send money'
-    };
-<<<<<<< HEAD
-    this.inputText = map[key] || key;
+  sendQuickReply(text: string) {
+    this.inputText = text;
     this.sendMessage();
   }
 
@@ -375,16 +128,6 @@ export class ChatbotWidgetComponent {
     try {
       if (this.messagesEnd) {
         this.messagesEnd.nativeElement.scrollIntoView({ behavior: 'smooth' });
-=======
-    this.draft = quickMessages[action] || action;
-    this.send();
-  }
-
-  private scrollToBottom(): void {
-    try {
-      if (this.messageContainer) {
-        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
       }
     } catch (err) {}
   }

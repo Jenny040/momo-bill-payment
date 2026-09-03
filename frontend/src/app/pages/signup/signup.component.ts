@@ -10,10 +10,11 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <div style="min-height:100vh;background:#F7F7F7;display:flex;align-items:center;justify-content:center;padding:0 16px;padding-top:64px;font-family:'Poppins',sans-serif;">
-      <div style="background:white;border-radius:24px;padding:32px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+      <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
         <div style="text-align:center;margin-bottom:32px;">
           <h1 style="font-size:24px;font-weight:700;color:#1A1A1A;">🏦 MoMo Everyday</h1>
           <p style="color:#666666;margin-top:4px;">Create your account</p>
+          <div style="display:inline-block;background:#e8f5e9;color:#2e7d32;padding:4px 14px;border-radius:20px;font-size:12px;margin-top:8px;">🔒 Secure Signup</div>
         </div>
 
         <div *ngIf="errorMessage" style="background:#FEF2F2;color:#E74C3C;padding:12px;border-radius:12px;font-size:14px;margin-bottom:16px;">
@@ -56,8 +57,6 @@ export class SignupComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSignup() {
-    this.errorMessage = '';
-
     if (!this.fullName || !this.phoneNumber || !this.password) {
       this.errorMessage = 'Please fill in all fields';
       return;
@@ -66,7 +65,6 @@ export class SignupComponent {
       this.errorMessage = 'Password must be at least 8 characters';
       return;
     }
-
     this.authService.signup({
       fullName: this.fullName,
       phoneNumber: this.phoneNumber,
@@ -74,12 +72,8 @@ export class SignupComponent {
       country: 'SOUTH_AFRICA',
       language: 'en'
     }).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.errorMessage = err.message || 'Signup failed. Please try again.';
-      }
+      next: () => this.router.navigate(['/dashboard']),
+      error: (err) => this.errorMessage = err.message || 'Signup failed'
     });
   }
 }

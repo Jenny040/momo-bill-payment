@@ -1,18 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ChatbotWidgetComponent } from './components/chatbot-widget/chatbot-widget.component';
 import { LanguageService } from './core/services/language.service';
 import { AuthService, User } from './core/services/auth.service';
-=======
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ChatbotWidgetComponent } from './components/chatbot-widget/chatbot-widget.component';
-import { TranslatePipe } from './core/pipes/translate.pipe';
-import { LanguageService } from './core/services/language.service';
-import { UserService } from './core/services/user.service';
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
 @Component({
   selector: 'app-root',
@@ -22,7 +13,6 @@ import { UserService } from './core/services/user.service';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-<<<<<<< HEAD
     ChatbotWidgetComponent
   ],
   template: `
@@ -34,11 +24,11 @@ import { UserService } from './core/services/user.service';
         </a>
 
         <nav class="nav-links">
-          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ t('nav.home') }}</a>
-          <a routerLink="/bills" routerLinkActive="active">{{ t('nav.bills') }}</a>
-          <a routerLink="/savings" routerLinkActive="active">{{ t('nav.savings') }}</a>
-          <a routerLink="/budget" routerLinkActive="active">{{ t('nav.budget') }}</a>
-          <a routerLink="/settings" routerLinkActive="active">{{ t('nav.settings') }}</a>
+          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+          <a routerLink="/bills" routerLinkActive="active">Bills</a>
+          <a routerLink="/savings" routerLinkActive="active">Savings</a>
+          <a routerLink="/budget" routerLinkActive="active">Budget</a>
+          <a routerLink="/settings" routerLinkActive="active">Settings</a>
         </nav>
 
         <div class="header-right">
@@ -49,46 +39,37 @@ import { UserService } from './core/services/user.service';
             <span class="user-avatar">{{ userInitials }}</span>
             {{ userName }}
           </div>
-          <button class="btn-logout" (click)="logout()">{{ t('auth.logout') }}</button>
+          <button class="btn-logout" (click)="logout()">Logout</button>
         </div>
       </div>
     </header>
-=======
-    ChatbotWidgetComponent,
-    TranslatePipe
-  ],
-  template: `
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="nav-brand">
-          <h1>🏦 {{ 'app.name' | translate }}</h1>
-          <span class="tagline">Essential bills & savings</span>
-        </div>
-        <div class="nav-right">
-          <select (change)="changeLanguage($event)" class="language-select">
-            <option *ngFor="let lang of languages" [value]="lang.code">
-              {{ lang.flag }} {{ lang.name }}
-            </option>
-          </select>
-          <ul class="nav-links">
-            <li><a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a></li>
-            <li><a routerLink="/bills" routerLinkActive="active">💰 Bills</a></li>
-            <li><a routerLink="/savings" routerLinkActive="active">💎 Savings</a></li>
-            <li><a routerLink="/budget" routerLinkActive="active">📈 Budget</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 
     <main class="main-content">
       <router-outlet></router-outlet>
     </main>
 
-<<<<<<< HEAD
     <app-chatbot-widget *ngIf="isAuthenticated"></app-chatbot-widget>
   `,
-  styles: []
+  styles: [`
+    .momo-header { background: #FFCB05; padding: 12px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .momo-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .momo-logo-icon { width: 36px; height: 36px; background: black; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFCB05; font-weight: 800; font-size: 14px; }
+    .momo-logo-text { font-size: 20px; font-weight: 700; color: black; }
+    .momo-logo-text span { font-weight: 300; }
+    .nav-links { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
+    .nav-links a { padding: 8px 16px; border-radius: 8px; color: black; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+    .nav-links a:hover { background: rgba(0,0,0,0.08); }
+    .nav-links a.active { background: black; color: #FFCB05; }
+    .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .header-right select { background: rgba(0,0,0,0.08); border: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; color: black; font-family: 'Poppins', sans-serif; }
+    .user-badge { display: flex; align-items: center; gap: 8px; background: black; color: #FFCB05; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+    .user-avatar { width: 28px; height: 28px; background: #FFCB05; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-size: 12px; font-weight: 700; }
+    .btn-logout { background: rgba(0,0,0,0.08); border: none; padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.3s; font-family: 'Poppins', sans-serif; font-weight: 500; }
+    .btn-logout:hover { background: rgba(0,0,0,0.15); }
+    .main-content { padding-top: 80px; min-height: 100vh; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+  `]
 })
 export class AppComponent implements OnInit {
   isAuthenticated = false;
@@ -117,7 +98,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Subscribe to authentication state
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       if (auth) {
@@ -128,12 +108,6 @@ export class AppComponent implements OnInit {
           this.userInitials = this.userName.split(' ').map(n => n[0]).join('').toUpperCase();
           this.languageService.setLanguage(user.language || 'en');
         }
-      } else {
-        // Redirect to login if not authenticated and not on landing page
-        const currentPath = this.router.url;
-        if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/signup') {
-          this.router.navigate(['/login']);
-        }
       }
     });
 
@@ -142,117 +116,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  t(key: string): string {
-    return this.languageService.get(key);
-=======
-    <app-chatbot-widget></app-chatbot-widget>
-  `,
-  styles: [`
-    .navbar {
-      background: linear-gradient(135deg, #6C1B8C 0%, #8B3A9E 100%);
-      color: white;
-      padding: 0.8rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .nav-brand h1 {
-      font-size: 1.4rem;
-      margin: 0;
-    }
-    .tagline {
-      font-size: 0.75rem;
-      opacity: 0.8;
-      display: block;
-    }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-    .language-select {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1);
-      color: white;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .language-select option { color: #333; }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 0.8rem;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      padding: 0.4rem 0.9rem;
-      border-radius: 8px;
-      transition: background 0.3s;
-      font-size: 14px;
-    }
-    .nav-links a:hover { background: rgba(255,255,255,0.2); }
-    .nav-links a.active { background: rgba(255,255,255,0.3); }
-    .main-content {
-      max-width: 1200px;
-      margin: 1.5rem auto;
-      padding: 0 20px;
-    }
-    @media (max-width: 768px) {
-      .nav-container { flex-direction: column; }
-      .nav-right { width: 100%; justify-content: center; flex-wrap: wrap; }
-      .nav-links { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
-    }
-  `]
-})
-export class AppComponent implements OnInit {
-  languages = [
-    { code: 'EN', name: 'English', flag: '🇬🇧' },
-    { code: 'SW', name: 'Swahili', flag: '🇰🇪' },
-    { code: 'FR', name: 'Français', flag: '🇫🇷' },
-    { code: 'HA', name: 'Hausa', flag: '🇳🇬' },
-    { code: 'ZU', name: 'isiZulu', flag: '🇿🇦' },
-    { code: 'AF', name: 'Afrikaans', flag: '🇿🇦' },
-    { code: 'YO', name: 'Yoruba', flag: '🇳🇬' },
-    { code: 'TWI', name: 'Twi', flag: '🇬🇭' }
-  ];
-
-  constructor(
-    private languageService: LanguageService,
-    private userService: UserService
-  ) {}
-
-  ngOnInit() {
-    const user = this.userService.getMockUser();
-    this.languageService.setLanguage(user.preferredLanguage);
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
-  }
-
   changeLanguage(event: any) {
     this.languageService.setLanguage(event.target.value);
   }
-<<<<<<< HEAD
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-=======
->>>>>>> 4d5bc819185c2de2cff7eff3636951a507871ffb
 }
